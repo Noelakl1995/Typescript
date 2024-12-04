@@ -1,45 +1,36 @@
-//const runnerJohn = new Runner('Jonh');
-//const lazyJonh  = new Lazy('John');
+import { Taskstatus } from "./Task";
+import { TodoList } from "./TodoList";
 
-//runnerJohn.move();
-//runnerJohn.greetings();
-
-//lazyJonh.move();
-//lazyJonh.greetings();
-
-
-export type FPSControls = {
-    W: 'up';
-    A: 'left';
-    S: 'down';
-    D: 'right';
-}
-
-export interface iGame<T> {
-    title: string;
-    platform: string;
-    controls: T;
-}
+const todo = new TodoList();
+//adicionar tarefas
+todo.addTask("Estudar TypeScript");
+todo.addTask("Fazer compras");
+todo.addTask("Praticar exercicios");
 
 
-export class FPSGame implements iGame<FPSControls> {
-    title: string;
-    platform: string;
-    controls: FPSControls;
-
-    constructor(title: string, platform: string, controls: FPSControls) {
-        this.title = title;
-        this.platform = platform;
-        this.controls = controls;
-    }
-}
+//atualizar uma tarefa
+const updated = todo.updateTask(1, {status: Taskstatus.Completed});
+console.log("Atualizou tarefa?", updated);
 
 
-const gameControls: FPSControls = {
-    W: 'up',
-    A: 'left',
-    S: 'down',
-    D: 'right'
-};
+//filtar por id
+const taskById = todo.filterTask("id", 1);
+console.log("Trefa com ID 1:", taskById);
 
-const myFPSGame = new FPSGame("Action Shooter", "PC", gameControls);
+//filtrar tarefas pendentes
+const pendingTasks = todo.filterTask("status", Taskstatus.Pending);
+console.log("Tarefas Pendentes:", pendingTasks);
+
+
+//filtrar tarefas concluidas
+const completedTasks = todo.filterTask("status", Taskstatus.Completed);
+console.log("Tarefas Concluidos:", completedTasks/*.map((c) => c.description)*/);
+
+
+//remover tarefas
+const removed = todo.removeTask(2);
+console.log("Todas as Tarefas:", removed);
+
+
+//Listar tarefas
+console.log("Todas as tarefas", todo.listTasks());
